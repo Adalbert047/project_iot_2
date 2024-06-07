@@ -44,7 +44,7 @@
                         </canvas>
                     </div>
                     <div>
-                    @for (partes of ArregloDividido; track $index) 
+                    @for (partes of ArregloDividido.reverse(); track $index) 
                     {
                         <app-tabla [ListObjects]="partes"></app-tabla>
                     }                        

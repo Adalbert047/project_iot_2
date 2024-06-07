@@ -43,12 +43,12 @@ export class HumidityComponent {
   }
 
   ngOnInit(): void {
-    this.deviceService.getDataTemperature().subscribe(
+    this.deviceService.getDataHumedad().subscribe(
       (response : Humidity[]) => 
       {
-        this.humidityDataTabla = response.map(temp => 
+        this.humidityDataTabla = response.map(hum => 
           {
-            const date = new Date(temp.timestamp)
+            const date = new Date(hum.timestamp)
             const year = date.getFullYear();
             const month = date.getMonth() + 1 // Los meses en JavaScript son 0-11, por lo que se suma 1
             const day = date.getDate()
@@ -60,8 +60,8 @@ export class HumidityComponent {
             const sign = offset >= 0 ? '+' : '-';
             const offsetHours = (Math.floor(Math.abs(offset) / 60));
             const offsetMinutes = (Math.abs(offset) % 60);
-            temp.timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${sign}${offsetHours}:${offsetMinutes}`
-            return temp
+            hum.timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${sign}${offsetHours}:${offsetMinutes}`
+            return hum
           }
         )
         this.dividirArreglo()
@@ -78,8 +78,6 @@ export class HumidityComponent {
             return hum
           }
         )
-        this.labelsName = Array.from(new Set(this.humidityData.map(hum => hum.timestamp.getMonth())));
-        this.labelsName.sort((a, b) => a - b);
         this.preChart()
       }
     )
@@ -87,17 +85,16 @@ export class HumidityComponent {
 
   preChart()
   {
-    const dateLabels = Array.from(new Set(this.humidityData.map(hum => hum.timestamp.toISOString())));
-    dateLabels.sort();
-    const  humidityValues = this.humidityData.map(hum => hum.value)
+    const dateLabels = this.humidityData.map(hum => hum.timestamp.toLocaleTimeString())
+    const humidityValues = this.humidityData.map(hum => hum.value)
+    const invertedDateLabels = dateLabels.reverse();
+    const invertedHumidityValues = humidityValues.reverse();
+    
     const data = {
-      labels: dateLabels.map(date => {
-        const timestamp = new Date(date);
-        return `${timestamp.getDate()}/${timestamp.getMonth() + 1}/${timestamp.getFullYear()} - ${timestamp.getHours()}:${timestamp.getMinutes()}`;
-      }),
+      labels: invertedDateLabels,
       datasets: [{
         label: 'Humedad',
-        data: humidityValues,
+        data: invertedHumidityValues,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1
@@ -114,11 +111,13 @@ export class HumidityComponent {
   dividirArreglo() {
     const tamanoParte = 10
     this.partesArreglo = [];
-  
+
     for (let i = 0; i < tamanoParte; i += tamanoParte) {
       const parte = this.humidityDataTabla.slice(i, i + tamanoParte);
       this.partesArreglo.push(parte);
     }
+
+    
   }
 
   get FechaActual()

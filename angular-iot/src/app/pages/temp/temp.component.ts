@@ -99,11 +99,15 @@ export class TempComponent{
         timestamp: new Date(temp.timestamp)
       }));
 
+
+      const invertedDateLabels = this.temperatureData.map(temp => temp.timestamp.toLocaleTimeString()).reverse();
+      const invertedTempValues = this.temperatureData.map(temp => temp.value).reverse();
+
       const data = {
-        labels: this.temperatureData.map(temp => temp.timestamp.toLocaleTimeString()),
+        labels: invertedDateLabels,
         datasets: [{
           label: 'Temperature',
-          data: this.temperatureData.map(temp => temp.value),
+          data: invertedTempValues,
           fill: false,
           borderColor: '#eddea4',
           backgroundColor: '#eddea4',
@@ -120,8 +124,11 @@ export class TempComponent{
   }
 
   updateChart(): void {
-    this.myChart.data.labels = this.temperatureData.map(temp => temp.timestamp.toLocaleTimeString())
-    this.myChart.data.datasets[0].data = this.temperatureData.map(temp => temp.value)
+    const invertedDateLabels = this.temperatureData.map(temp => temp.timestamp.toLocaleTimeString()).reverse();
+    const invertedTempValues = this.temperatureData.map(temp => temp.value).reverse();
+
+    this.myChart.data.labels = invertedDateLabels
+    this.myChart.data.datasets[0].data = invertedTempValues
     this.myChart.update()
   }
 
