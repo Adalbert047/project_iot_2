@@ -3,15 +3,17 @@ import { Humidity } from '../../interface/humidity';
 import { Chart } from 'chart.js/auto';
 import { DeviceDataService } from '../../services/device-data.service';
 import { TablaComponent } from '../../components/tabla/tabla.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-humidity',
   standalone: true,
-  imports: [TablaComponent],
+  imports: [TablaComponent, NgxPaginationModule],
   templateUrl: './humidity.component.html',
   styleUrl: './humidity.component.css'
 })
 export class HumidityComponent {
+  p: number = 1;
   partesArreglo: any[] = [];
   private fechaActual : Date
   private lables : string[] = []
@@ -112,7 +114,7 @@ export class HumidityComponent {
     const tamanoParte = 10
     this.partesArreglo = [];
 
-    for (let i = 0; i < tamanoParte; i += tamanoParte) {
+    for (let i = 0; i < this.humidityDataTabla.length; i += tamanoParte) {
       const parte = this.humidityDataTabla.slice(i, i + tamanoParte);
       this.partesArreglo.push(parte);
     }

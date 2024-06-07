@@ -3,15 +3,17 @@ import { Chart } from 'chart.js';
 import { Co2 } from '../../interface/co2';
 import { DeviceDataService } from '../../services/device-data.service';
 import { TablaComponent } from '../../components/tabla/tabla.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-c02',
   standalone: true,
-  imports: [TablaComponent],
+  imports: [TablaComponent, NgxPaginationModule],
   templateUrl: './c02.component.html',
   styleUrl: './c02.component.css'
 })
 export class C02Component {
+  p: number = 1;
   partesArreglo: any[] = [];
   private fechaActual : Date
   private labelsName :any[]=[]
@@ -28,7 +30,7 @@ export class C02Component {
 
   constructor(private deviceService : DeviceDataService)
   {
-    this.deviceService.getHumidityLastValue().subscribe(
+    this.deviceService.getCo2LastValue().subscribe(
       response => 
       {
         this.co2 = response.last_value
@@ -98,7 +100,9 @@ export class C02Component {
         label: 'Co2',
         data: co2DataValues,
         fill: false,
-        borderColor: 'rgb(75, 192, 192)',
+        borderColor: '#fca311',
+        backgroundColor: '#fca311',
+        color: "#000000",
         tension: 0.1
       }]
     }

@@ -44,10 +44,14 @@
                         </canvas>
                     </div>
                     <div>
-                    @for (partes of ArregloDividido; track $index) 
+                    @for (partes of ArregloDividido |  paginate: { itemsPerPage: 1, currentPage: p }; track $index) 
                     {
                         <app-tabla [ListObjects]="partes"></app-tabla>
                     }                        
+                    </div>
+
+                    <div>
+                        <pagination-controls class="my-pagination" (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
                     </div>
                 </div>
             </div>

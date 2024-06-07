@@ -12,3 +12,35 @@
     background-color: #b5e2fa;
     border-radius: 5px 5px 0px 0px;
 }
+
+
+.my-pagination ::ng-deep .ngx-pagination .current {
+    background: #b5e2fa;
+    border-radius: 5px;
+    font-family: "Montserrat", sans-serif;
+}
+.my-pagination ::ng-deep .ngx-pagination {
+    text-align: center;
+}
+
+
+.my-pagination ::ng-deep .pagination-previous {
+    font-family: "Montserrat", sans-serif;
+    border: 5px;
+}
+.my-pagination ::ng-deep .pagination-next {
+    font-family: "Montserrat", sans-serif;
+    border: 5px;
+    
+}
+
+.my-pagination ::ng-deep .pagination-previous a:hover{
+    font-family: "Montserrat", sans-serif;
+    border-radius: 5px;
+    background-color: #b5e2fa;
+}
+.my-pagination ::ng-deep .pagination-next a:hover {
+    font-family: "Montserrat", sans-serif;
+    border-radius: 5px;
+    background-color: #b5e2fa;
+}

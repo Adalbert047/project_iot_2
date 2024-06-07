@@ -5,15 +5,17 @@ import { Chart } from 'chart.js/auto';
 import { ApiNodeService } from '../../services/api-node.service';
 import { interval, Subscribable, Subscription, switchMap } from 'rxjs';
 import { TablaComponent } from '../../components/tabla/tabla.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-temp',
   standalone: true,
-  imports: [TablaComponent],
+  imports: [TablaComponent, NgxPaginationModule],
   templateUrl: './temp.component.html',
   styleUrl: './temp.component.css'
 })
 export class TempComponent{
+  p: number = 1;
   partesArreglo: any[] = [];
   private lables : string[] = []
   private labelsName :any[]=[]
@@ -136,7 +138,7 @@ export class TempComponent{
     const tamanoParte = 10
     this.partesArreglo = [];
   
-    for (let i = 0; i < tamanoParte; i += tamanoParte) {
+    for (let i = 0; i < this.temperatureDataNormal.length; i += tamanoParte) {
       const parte = this.temperatureDataNormal.slice(i, i + tamanoParte);
       this.partesArreglo.push(parte);
     }
