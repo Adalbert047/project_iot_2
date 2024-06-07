@@ -1,4 +1,5 @@
 export interface Co2 {
-    value : number,
-    date : string
+    timestamp: Date;
+    created_at: Date;
+    value: number;
 }

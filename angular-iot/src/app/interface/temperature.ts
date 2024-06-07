@@ -1,4 +1,5 @@
 export interface Temperature {
-    value : number,
-    date : string
+    timestamp: Date;
+    created_at: Date;
+    value: number;
 }

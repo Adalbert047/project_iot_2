@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { Temperature } from '../interface/temperature';
+import { Humidity } from '../interface/humidity';
 
 @Injectable({
   providedIn: 'root'
@@ -19,19 +21,21 @@ export class DeviceDataService {
 
   getDataTemperature() : Observable<any>
   {
-    return this.http.get<any>(`${this.urlAPI}temperature`, {headers : this.httpHeaders}).pipe(
+    return this.http.get<any>(`${this.urlAPI}temperature/values/`, {headers : this.httpHeaders}).pipe(
       catchError( e => {
           return throwError(e)
-      })
+      }),
+      map(response => response.results as Temperature[])
     )
   }
 
   getDataHumedad() : Observable<any>
   {
-    return this.http.get<any>(`${this.urlAPI}humidity`, {headers : this.httpHeaders}).pipe(
+    return this.http.get<any>(`${this.urlAPI}humidity/values/`, {headers : this.httpHeaders}).pipe(
       catchError( e => {
           return throwError(e)
-      })
+      }),
+      map(response => response.results as Humidity[])
     )
   }
 

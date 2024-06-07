@@ -9,12 +9,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 export class ApiNodeService {
 
   private urlAPI : string = 'http://localhost:3000/api'
-  private token : string = 'BBUS-uyWzXckxWRcgvOCTCL8JFqppupC3W8'
-  private httpHeaders = new HttpHeaders({ 
-    'X-Auth-Token': this.token,
-    'Content-Type': 'application/json'
-  })
-
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'}) 
 
   constructor(private http : HttpClient) { 
 
@@ -32,7 +27,7 @@ export class ApiNodeService {
 
   postDataTemp(temp : Temperature) : Observable<Temperature>
   {
-    return this.http.post<Temperature>(`${this.urlAPI}/temp`,temp).pipe(
+    return this.http.post<Temperature>(`${this.urlAPI}/temp`,temp, { headers : this.httpHeaders}).pipe(
       catchError( e => {
           return throwError(e)
       })
