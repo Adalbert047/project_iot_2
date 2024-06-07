@@ -2,28 +2,71 @@ import { Component } from '@angular/core';
 import { Chart } from 'chart.js';
 import { Co2 } from '../../interface/co2';
 import { DeviceDataService } from '../../services/device-data.service';
+import { TablaComponent } from '../../components/tabla/tabla.component';
 
 @Component({
   selector: 'app-c02',
   standalone: true,
-  imports: [],
+  imports: [TablaComponent],
   templateUrl: './c02.component.html',
   styleUrl: './c02.component.css'
 })
 export class C02Component {
-
-  private lables : string[] = []
+  partesArreglo: any[] = [];
+  private fechaActual : Date
   private labelsName :any[]=[]
   private co2Data : Co2[] = []
+  private co2DataTabla : Co2[] = []
+
   public myChart!: Chart;
+  private co2 : any = {
+    value : 0,
+    created_at : new Date(),
+    timestamp : new Date()
+  }
 
 
   constructor(private deviceService : DeviceDataService)
   {
+    this.deviceService.getHumidityLastValue().subscribe(
+      response => 
+      {
+        this.co2 = response.last_value
+        this.co2.imestamp = new Date(this.co2.timestamp)
+        this.co2.value = this.co2.value.toFixed(2);
+        console.log(this.co2)
+      }
+    )
+    this.fechaActual = new Date()
   }
 
 
   ngOnInit(): void {
+    this.deviceService.getDataTemperature().subscribe(
+      (response : Co2[]) => 
+      {
+        this.co2DataTabla = response.map(co2 => 
+          {
+            const date = new Date(co2.timestamp)
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1 // Los meses en JavaScript son 0-11, por lo que se suma 1
+            const day = date.getDate()
+            const hours = date.getHours()
+            const minutes = date.getMinutes()
+            const seconds = date.getSeconds()
+
+            const offset = -date.getTimezoneOffset();
+            const sign = offset >= 0 ? '+' : '-';
+            const offsetHours = (Math.floor(Math.abs(offset) / 60));
+            const offsetMinutes = (Math.abs(offset) % 60);
+            co2.timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${sign}${offsetHours}:${offsetMinutes}`
+            return co2
+          }
+        )
+        this.dividirArreglo()
+      }
+    )
+
     this.deviceService.getDataCo2().subscribe(
       (response : Co2[]) => 
       {
@@ -64,6 +107,31 @@ export class C02Component {
       data : data
       }
     )
+  }
+
+  dividirArreglo() {
+    const tamanoParte = 10
+    this.partesArreglo = [];
+  
+    for (let i = 0; i < tamanoParte; i += tamanoParte) {
+      const parte = this.co2DataTabla.slice(i, i + tamanoParte);
+      this.partesArreglo.push(parte);
+    }
+  }
+
+  get FechaActual()
+  {
+    return this.fechaActual
+  }
+
+  get ArregloDividido()
+  {
+    return this.partesArreglo
+  }
+
+  get Co2()
+  {
+    return this.co2
   }
 
 }

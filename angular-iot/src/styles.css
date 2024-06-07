@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+
+
+
+.monserrat {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-optical-sizing: auto;
+}
+
+
+.text-small
+{
+    font-size: .8rem;
+}
+.text-normal
+{
+    font-size: 1.2rem;
+}
+.text-large{
+    font-size: 2.0rem;
+}
+
+
+.f9f7f3
+{
+    color: #f9f7f3;
+}

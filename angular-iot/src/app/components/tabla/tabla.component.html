@@ -1,0 +1,20 @@
+<div class="table-container table-responsive card ">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="text-center monserrat">No.</th>
+                <th  class="text-center monserrat">Fecha</th>
+                <th  class="text-center monserrat">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (i of ListObjects; track $index) {
+                <tr>
+                    <td class="text-center monserrat fw-bold">{{$index+1}}</td>
+                    <td class="text-center monserrat">{{i.timestamp}}</td>
+                    <td class="text-center monserrat">{{i.value}}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

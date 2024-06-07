@@ -3,70 +3,156 @@ import { DeviceDataService } from '../../services/device-data.service';
 import { Temperature } from '../../interface/temperature';
 import { Chart } from 'chart.js/auto';
 import { ApiNodeService } from '../../services/api-node.service';
+import { interval, Subscribable, Subscription, switchMap } from 'rxjs';
+import { TablaComponent } from '../../components/tabla/tabla.component';
 
 @Component({
   selector: 'app-temp',
   standalone: true,
-  imports: [],
+  imports: [TablaComponent],
   templateUrl: './temp.component.html',
   styleUrl: './temp.component.css'
 })
 export class TempComponent{
+  partesArreglo: any[] = [];
   private lables : string[] = []
   private labelsName :any[]=[]
+  private temp : any = {
+    value : 0,
+    created_at : new Date(),
+    timestamp : new Date()
+  }
+  private fechaActual : Date
+  private updateSubscription! : Subscription
   private temperatureData : Temperature[] = []
+  private temperatureDataNormal : Temperature[] = []
   public myChart!: Chart;
 
 
   constructor(private deviceService : DeviceDataService, private apiNode : ApiNodeService)
   {
+    this.deviceService.getTempLastValue().subscribe(
+      response => 
+      {
+        this.temp = response.last_value
+        this.temp.timestamp = new Date(this.temp.timestamp)
+        this.temp.value = this.temp.value.toFixed(2);
+        console.log(this.temp)
+      }
+    )
+
+
+    this.fechaActual = new Date()
   }
 
   ngOnInit(): void {
+    this.preChart()
+
     this.deviceService.getDataTemperature().subscribe(
       (response : Temperature[]) => 
       {
-        this.temperatureData = response.map(temp => 
+        this.temperatureDataNormal = response.map(temp => 
           {
-            temp.timestamp = new Date(temp.timestamp)
+            const date = new Date(temp.timestamp)
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1 // Los meses en JavaScript son 0-11, por lo que se suma 1
+            const day = date.getDate()
+            const hours = date.getHours()
+            const minutes = date.getMinutes()
+            const seconds = date.getSeconds()
+
+            const offset = -date.getTimezoneOffset();
+            const sign = offset >= 0 ? '+' : '-';
+            const offsetHours = (Math.floor(Math.abs(offset) / 60));
+            const offsetMinutes = (Math.abs(offset) % 60);
+            temp.timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${sign}${offsetHours}:${offsetMinutes}`
             return temp
           }
         )
-        this.labelsName = Array.from(new Set(this.temperatureData.map(temp => temp.timestamp.getMonth())));
-        this.labelsName.sort((a, b) => a - b);
-        this.preChart()
+        this.dividirArreglo()
       }
     )
+
+    this.updateSubscription = interval(2000).pipe(
+      switchMap(() => this.deviceService.getDataTemperature())
+    ).subscribe((response: Temperature[]) => {
+      this.temperatureData = response.map(temp => ({
+        ...temp,
+        timestamp: new Date(temp.timestamp)
+      }))
+      this.updateChart()
+    });
+  }
+
+
+  ngOnDestroy(): void {
+    if (this.updateSubscription) {
+      this.updateSubscription.unsubscribe()
+    }
   }
 
   preChart()
-  {
-    const dateLabels = Array.from(new Set(this.temperatureData.map(temp => temp.timestamp.toISOString())));
-    dateLabels.sort();
-    const temperaturaValues = this.temperatureData.map(temp => temp.value)
-    const data = {
-      labels: dateLabels.map(date => {
-        const timestamp = new Date(date);
-        return `${timestamp.getDate()}/${timestamp.getMonth() + 1}/${timestamp.getFullYear()} - ${timestamp.getHours()}:${timestamp.getMinutes()}`;
-      }),
-      datasets: [{
-        label: 'Temperatura',
-        data: temperaturaValues,
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }]
-    }
-    this.myChart = new Chart("chartTemp", {
-      type : 'line',
-      data : data
+  { 
+    this.deviceService.getDataTemperature().subscribe((response: Temperature[]) => {
+      this.temperatureData = response.map(temp => ({
+        ...temp,
+        timestamp: new Date(temp.timestamp)
+      }));
+
+      const data = {
+        labels: this.temperatureData.map(temp => temp.timestamp.toLocaleTimeString()),
+        datasets: [{
+          label: 'Temperature',
+          data: this.temperatureData.map(temp => temp.value),
+          fill: false,
+          borderColor: '#eddea4',
+          backgroundColor: '#eddea4',
+          color: "#000000",
+          tension: 0.1
+        }]
       }
-    )
+
+      this.myChart = new Chart('chartTemp', {
+        type: 'line',
+        data: data,
+      })
+    })
+  }
+
+  updateChart(): void {
+    this.myChart.data.labels = this.temperatureData.map(temp => temp.timestamp.toLocaleTimeString())
+    this.myChart.data.datasets[0].data = this.temperatureData.map(temp => temp.value)
+    this.myChart.update()
+  }
+
+  dividirArreglo() {
+    const tamanoParte = 10
+    this.partesArreglo = [];
+  
+    for (let i = 0; i < tamanoParte; i += tamanoParte) {
+      const parte = this.temperatureDataNormal.slice(i, i + tamanoParte);
+      this.partesArreglo.push(parte);
+    }
   }
 
 
   get TemperatureData()
   {
     return this.temperatureData
+  }
+
+
+  get Temp(){
+    return this.temp
+  }
+
+  get FechaActual()
+  {
+    return this.fechaActual
+  }
+
+  get ArregloDividido()
+  {
+    return this.partesArreglo
   }
 }

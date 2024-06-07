@@ -51,14 +51,34 @@ export class DeviceDataService {
   }
 
 
-  getDataDevice() : Observable<any>
+  getTempLastValue() : Observable<any>
   {
-    return this.http.get<any>(`${this.urlAPI}`, {headers : this.httpHeaders}).pipe(
+    return this.http.get<any>(`${this.urlAPI}temperature`, {headers : this.httpHeaders}).pipe(
       catchError( e => {
           return throwError(e)
       })
     )
   }
+
+  getHumidityLastValue() : Observable<any>
+  {
+    return this.http.get<any>(`${this.urlAPI}humidity`, {headers : this.httpHeaders}).pipe(
+      catchError( e => {
+          return throwError(e)
+      })
+    )
+  }
+
+  
+  getCo2LastValue() : Observable<any>
+  {
+    return this.http.get<any>(`${this.urlAPI}co2`, {headers : this.httpHeaders}).pipe(
+      catchError( e => {
+          return throwError(e)
+      })
+    )
+  }
+
 
 
 

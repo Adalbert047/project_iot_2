@@ -1,0 +1,9 @@
+.card
+{
+    background: transparent;
+    border: none;
+}
+.table-container{
+    width: 100%;
+    /* overflow-y: auto; */
+}

@@ -1,5 +1,5 @@
 export interface Humidity {
-    timestamp: Date;
+    timestamp: any;
     created_at: Date;
     value: number;
 }

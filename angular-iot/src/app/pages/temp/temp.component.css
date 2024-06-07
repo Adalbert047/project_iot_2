@@ -1,0 +1,14 @@
+.container-primary
+{
+    background-color: #f9f7f3;
+}
+.container-data
+{
+    background-color: #ffff;
+    border-radius: 0px 0px 5px 5px;
+}
+.container-name
+{
+    background-color: #b5e2fa;
+    border-radius: 5px 5px 0px 0px;
+}

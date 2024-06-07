@@ -1,3 +1,56 @@
-<canvas id="chartTemp" height="50%">
-    {{myChart}}
-</canvas>
+<div class="container-primary" style="height: 92vh;">
+    <div class="d-flex col-12 justify-content-center align-items-center">
+        <div class="mt-5 d-flex col-10 col-lg-10 column-gap-4">
+            <div class="container-data col-5 col-lg-2 d-flex flex-column rounded" style="height: 75vh;">
+                <div class="d-flex flex-column justify-content-center align-items-start container-name" style="height: 30%;">
+                    <h3 class="mx-2 monserrat">{{Temp.value}}</h3>
+                    <p class="mx-2 monserrat text-normal m-0">Temperatura</p>
+                </div>
+                <div>
+                    <div class="mx-2 d-flex flex-column border-bottom">
+                        <p class="monserrat m-0 fw-bolder">Descripcion</p>
+                        <p class="monserrat text-small">Apartado de Temperatura</p>
+                    </div>
+                    <div class="mx-2 d-flex flex-column border-bottom">
+                        <p class="monserrat m-0 fw-bolder">Integrantes</p>
+                        <p class="monserrat text-small m-0">- Adalberto Amaya Garcia</p>
+                        <p class="monserrat text-small m-0">- Gabriela Estrello Guadarrama</p>
+                        <p class="monserrat text-small m-0">- Victor Eduardo Garcia Sardaneta</p>
+                        <p class="monserrat text-small m-0">- Angel Gabriel Herrera Contreras</p>
+                    </div>
+                    <div class="mx-2 d-flex flex-column border-bottom">
+                        <p class="monserrat m-0 fw-bolder">API Label</p>
+                        <p class="monserrat  text-small">iot</p>
+                    </div>
+                    <div class="mx-2 d-flex flex-column border-bottom">
+                        <p class="monserrat m-0 fw-bolder">ID</p>
+                        <p class="monserrat  text-small">7127372712712</p>
+                    </div>
+                    <div class="mx-2 d-flex flex-column">
+                        <p class="monserrat m-0 fw-bolder">Token</p>
+                        <p class="monserrat  text-small">1295AVWGLW</p>
+                    </div>
+                    <div class="mx-2 d-flex flex-column">
+                        <p class="monserrat m-0 fw-bolder">Ultima actividad</p>
+                        <p class="monserrat  text-small">{{ ((FechaActual.getTime()-Temp.timestamp.getTime()) / (1000 * 60 * 60)).toFixed(0)}} horas desde la ultima actividad</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-lg-8">
+                <div class="container-data d-flex flex-column row-gap-4 rounded">
+                    <div>
+                        <canvas id="chartTemp" height="50%">
+                            {{myChart}}
+                        </canvas>
+                    </div>
+                    <div>
+                    @for (partes of ArregloDividido; track $index) 
+                    {
+                        <app-tabla [ListObjects]="partes"></app-tabla>
+                    }                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
