@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Temperature } from '../interface/temperature';
 import { Humidity } from '../interface/humidity';
+import { Co2 } from '../interface/co2';
 
 @Injectable({
   providedIn: 'root'
@@ -41,10 +42,11 @@ export class DeviceDataService {
 
   getDataCo2() : Observable<any>
   {
-    return this.http.get<any>(`${this.urlAPI}co2`, {headers : this.httpHeaders}).pipe(
+    return this.http.get<any>(`${this.urlAPI}co2/values/`, {headers : this.httpHeaders}).pipe(
       catchError( e => {
           return throwError(e)
-      })
+      }),
+      map(response => response.results as Co2[])
     )
   }
 

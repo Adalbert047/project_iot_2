@@ -42,7 +42,7 @@ export class HumidityComponent {
   {
     const dateLabels = Array.from(new Set(this.humidityData.map(hum => hum.timestamp.toISOString())));
     dateLabels.sort();
-    const temperaturaValues = this.humidityData.map(hum => hum.value)
+    const  humidityValues = this.humidityData.map(hum => hum.value)
     const data = {
       labels: dateLabels.map(date => {
         const timestamp = new Date(date);
@@ -50,7 +50,7 @@ export class HumidityComponent {
       }),
       datasets: [{
         label: 'Humedad',
-        data: temperaturaValues,
+        data: humidityValues,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1
