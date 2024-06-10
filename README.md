@@ -1,10 +1,10 @@
 # Dashboard de Visualizacion
 
 # Integrantes
-Adalberto Amaya García
-Gabriela Estrello Guadarrama
-Victor Eduardo García Sardaneta
-Ángel Gabriel Herrera Contreras
+* Adalberto Amaya García
+* Gabriela Estrello Guadarrama
+* Victor Eduardo García Sardaneta
+* Ángel Gabriel Herrera Contreras
 
 
 # Descripción
@@ -41,16 +41,16 @@ pero se utiliza las variables de la logica del frontend para ciertos casos, como
 
 Al igual se contempla el desarrollo de servicios o services en ingles, en el cual estan las peticiones, las cuales son las siguientes:
 
-getDataTemperature() : Retorna un arreglo de objetos tipo Temperatura
-getDataHumedad() : Retorna un arreglo de objetos tipo Humedad
-getDataCo2() : Retorna un arreglo de objetos tipo CO2
+* getDataTemperature() : Retorna un arreglo de objetos tipo Temperatura
+* getDataHumedad() : Retorna un arreglo de objetos tipo Humedad
+* getDataCo2() : Retorna un arreglo de objetos tipo CO2
 
 Estos siendo los mas importantes a tomar en cuenta.
 
 # Resultados 
 
 Resultado de una pagina funcional, solo contar que el apartado de CO2 no se pudo visualizar como tal, debido a que hubo un error en la captura de CO2 con la placa ESP32 y el sensor ENS160+AHTX2, el codigo ya esta estructurado, en el dado caso que 
-se cambie la direccion de la API a otro canal, y cambiar las variables, se ajustara de forma automatica, 
+se cambie la direccion de la API a otro canal, y cambiar las variables, se ajustara de forma automatica y mostrara los datos en sus respectiva grafica y tablas, solo tomar en cuenta los Labels, DataSets de la grafica. 
 
 La página del dashboard se encuentra en el siguiente link:
  
