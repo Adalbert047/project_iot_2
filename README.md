@@ -23,9 +23,9 @@ Para la elaboracion del proyecto, tomar en cuenta las siguientes caracteristicas
 
 Para mayor informacion de las librerias o documentacion de lenguajes usados, consulte a las siguientes URLS:
 
-Libreria de ngx-pagination: https://www.npmjs.com/package/ngx-pagination
-Libreria de Chart.js : https://www.chartjs.org/docs/latest
-Documentacion de Angular: https://v17.angular.io/docs
+* Libreria de ngx-pagination: https://www.npmjs.com/package/ngx-pagination
+* Libreria de Chart.js : https://www.chartjs.org/docs/latest
+* Documentacion de Angular: https://v17.angular.io/docs
 
 Para el uso del proyecto es necesario clonar el repositorio, abrir la carpeta iot > angular-iot.
 Posteriormente ejecutar el comando "npm install"
