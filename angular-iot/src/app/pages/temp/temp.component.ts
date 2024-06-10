@@ -6,6 +6,7 @@ import { ApiNodeService } from '../../services/api-node.service';
 import { interval, Subscribable, Subscription, switchMap } from 'rxjs';
 import { TablaComponent } from '../../components/tabla/tabla.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import e from 'cors';
 
 @Component({
   selector: 'app-temp',
@@ -39,7 +40,13 @@ export class TempComponent{
         this.temp = response.last_value
         this.temp.timestamp = new Date(this.temp.timestamp)
         this.temp.value = this.temp.value.toFixed(2);
+        console.log("Conexion Exitosa")
         console.log(this.temp)
+
+      },
+      (error) => 
+      {
+        console.error(error)
       }
     )
 
